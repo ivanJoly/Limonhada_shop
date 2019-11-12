@@ -6,10 +6,16 @@ const morgan = require('morgan');
 const multer = require('multer');
 const path = require('path');
 const app = express();
+let urlDB;
 
 if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
+    urlDB = process.env.MONGO_URI_DEV
+}else{
+    urlDB = process.env.MONGO_URI
 }
+
+process.env.URLDB = urlDB;
 
 
 // middlewares
@@ -27,7 +33,7 @@ app.use(multer({storage}).array('images'));
 app.use(require('./routes/index'));
 
 mongoose.connect(
-    process.env.MONGO_URI,
+    process.env.URLDB,
     { useUnifiedTopology: true, useNewUrlParser: true }
 )
 .then(db => console.log('DB is connected'))
