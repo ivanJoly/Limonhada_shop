@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const BagSchema = Schema({
     name: String,
-    slug: String,
+    slug: {
+        type: String,
+        unique: true,
+        dropDups: true
+    },
     images: {
         type: Array
     },
@@ -19,4 +23,8 @@ const BagSchema = Schema({
     }
 })
 
-module.exports = mongoose.model('Bag', BagSchema);
+const Bag = mongoose.model('Bag', BagSchema);
+
+Bag.createIndexes();
+
+module.exports = Bag;

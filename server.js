@@ -1,24 +1,28 @@
-// require("./config/config");
-
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const multer = require('multer');
 const path = require('path');
 const app = express();
-let urlDB;
+
+// --Settings--
+app.set('port', process.env.PORT || 5000);
 
 if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
-    urlDB = process.env.MONGO_URI_DEV
+    app.use(express.static('frontend/build'));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    });
 }else{
-    urlDB = process.env.MONGO_URI
+    app.use(express.static('frontend/build'));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    });
 }
 
-process.env.URLDB = urlDB;
-
-
-// middlewares
+// --Middlewares--
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -30,15 +34,13 @@ const storage = multer.diskStorage({
 }) 
 app.use(multer({storage}).array('images'));
 
+// --Routes--
 app.use(require('./routes/index'));
 
-mongoose.connect(
-    process.env.URLDB,
-    { useUnifiedTopology: true, useNewUrlParser: true }
-)
-.then(db => console.log('DB is connected'))
-.catch(err => console.error(err));
+// --Database--
+require('./config/database');
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Escuchando el puerto ${process.env.PORT}`);
+// --Server--
+app.listen(app.get('port'), () => {
+    console.log(`Escuchando el puerto ${app.get('port')}`);
 })

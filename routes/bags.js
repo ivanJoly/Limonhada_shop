@@ -1,40 +1,14 @@
 const {Router} = require("express");
 const router = Router();
-const fs = require('fs-extra');
 
-const Bag = require('../models/bags');
+const Bags = require('../models/bags');
+const cloudinary = require('../config/cloudinary');
 
-const cloudinary = require('cloudinary');
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-})
+const { deleteFiles } = require('../functions/functions');
+const { verifyExist } = require('../middlewares/verifySlug');
 
-
-function deleteFiles(files, callback){
-    var i = files.length;
-    files.forEach(function(filepath){
-        fs.unlink(filepath.path, function(err) {
-        i--;
-        if (err) {
-            callback(err);
-            return;
-        } else if (i <= 0) {
-            callback(null);
-        }
-        });
-    });
-}
-
-router.post('/bags', async function(req, res) {
-    const {name, price, description, alto, ancho, model} = req.body;
-    let uploadImages;
-    const slug = name.toLowerCase().replace(/ /g, '-');
-
-    let sizeObj = {};
-    sizeObj.alto = alto;
-    sizeObj.ancho = ancho;
+router.post('/bags', verifyExist, async function(req, res) {
+    const {name, price, description, model, slug, size} = req.body;
 
     let res_promises = req.files.map(file => new Promise((resolve, reject) => {
         cloudinary.v2.uploader.upload(file.path, { use_filename: true, unique_filename: false }, function (error, result) {
@@ -43,43 +17,94 @@ router.post('/bags', async function(req, res) {
         })
     })
     )
-    // Promise.all will fire when all promises are resolved 
+
     await Promise.all(res_promises)
     .then(result =>  {
-        uploadImages = result;
-        console.log('promise');
+
+        const bag = new Bags({
+            name,
+            slug,
+            images: result,
+            price,
+            description,
+            size,
+            model
+        })
+    
+        bag.save((err, bagDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'Fallo al guardar',
+                    err
+                })
+            }
+    
+            deleteFiles(req.files, function(err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log('all files removed');
+                }
+              });
+    
+            res.json({bagDB});
+        });
+
     })
     .catch((error) => {
-        res.json({
+        return res.json({
             ok: false,
+            message: 'Cloudinary error',
             err: error
         })
     })
-
-    const bag = new Bag({
-        name,
-        slug,
-        images: uploadImages,
-        price,
-        description,
-        size: sizeObj,
-        model
-    })
-
-    let newBag = await bag.save();
-
-    deleteFiles(req.files, function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('all files removed');
-        }
-      });
-
-    res.json({
-        ok:true,
-        bags: newBag
-    })
 });
 
+router.get('/bags', function(req,res) {
+    Bags.find({}).exec((err, bags) => {
+        if(err){
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        Bags.countDocuments((err, quantity) => {
+            res.json({
+                ok: true,
+                quantity,
+                bags
+            })
+        })
+    })
+})
+
+router.get('/bags/:name', function(req, res) {
+    let slug = req.params.name
+
+    Bags.findOne({slug:slug}, (err, bag) => {
+        if (err){
+            return res.status(400).json({
+                ok: true,
+                err
+            })
+        }
+
+        if(!bag){
+            return res.status(400).json({
+                ok:false,
+                err:{
+                    message: 'Bag not found'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            bag
+        })
+
+    })
+})
 module.exports = router;
