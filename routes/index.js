@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
 
-app.use(require("./bags"));
+app.use('/api/bags',require("./bags"));
 
 module.exports = app;

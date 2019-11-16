@@ -8,6 +8,9 @@ const BagSchema = Schema({
         unique: true,
         dropDups: true
     },
+    image_profile:{
+        type: Object
+    },
     images: {
         type: Array
     },
@@ -20,7 +23,9 @@ const BagSchema = Schema({
         type: [String],
         enum: ['Tote', 'Beach'],
         description: "can only be one of the enum values and is required"
-    }
+    },
+    stars: Number,
+    facts: Array
 })
 
 const Bag = mongoose.model('Bag', BagSchema);
