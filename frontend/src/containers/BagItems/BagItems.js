@@ -9,7 +9,7 @@ class BagItems extends Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/bags/')
+        fetch('http://localhost:5000/api/bags/')
         .then(response => {
             console.log(response);
         })
