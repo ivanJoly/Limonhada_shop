@@ -8,9 +8,11 @@
 
 .bag-item-container .bag-item-img img{
     width: 100%;
+    height: 100%;
     transform: translateX(-100%);
     opacity: 0;
     transition: 0.5s all;
+    object-fit: cover;
 }
 
 .bag-item-container.loaded .bag-item-img img{
@@ -44,7 +46,7 @@
 }
 
 .bag-item-container .bag-item-img:hover{
-    background-color: var(--grey-color-dark);
+    background-color: var(--secondary-color);
 }
 
 .bag-item-container .bag-item-img:hover > .button.add-cart{
@@ -184,4 +186,21 @@
         transform: translateX(100%);
     }
 }
-  
+
+@media (max-width: 1200px){
+    .bag-item-container{
+        flex: 0 33%;
+    }
+}
+
+@media (max-width: 992px){
+    .bag-item-container{
+        flex: 0 50%;
+    }
+}
+
+@media (max-width: 650px){
+    .bag-item-container{
+        flex: 0 100%;
+    }
+}
