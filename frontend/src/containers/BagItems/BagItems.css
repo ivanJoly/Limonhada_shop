@@ -1,5 +1,9 @@
 .bag-items-container{
     min-height: 600px;
     width: 100%;
-    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    margin: 60px 0;
 }

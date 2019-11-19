@@ -1,7 +1,7 @@
 footer{
     height: 65px;
     width: 100%;
-    background-color: #fefefe;
+    background-color: var(--primary-color);
 }
 
 footer .container{
@@ -18,5 +18,5 @@ footer h3{
     letter-spacing: 2px;
     font-weight: 100;
     font-family: 'Marcellus', serif;
-    color: var(--primary-color);
+    color: var(--grey-color);
 }

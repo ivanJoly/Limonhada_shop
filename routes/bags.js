@@ -11,6 +11,7 @@ const { deleteFiles } = require('../functions/functions');
 const { verifyExist } = require('../middlewares/verifySlug');
 
 router.post('/', async function(req, res) {
+    console.log(req.body);
     const {name, price, description, model, slug, size, stars, facts} = req.body;
     var imagesArr = req.files.images.slice().concat(req.files.image_profile);
 
@@ -82,6 +83,36 @@ router.post('/', async function(req, res) {
         })
     })
 });
+
+// router.post('/', async function(req, res) {
+//     const {name, price, description, model, slug, size, stars, facts} = req.body;
+
+//     const bag = new Bags({
+//         name,
+//         slug,
+//         image_profile: '',
+//         images: [],
+//         price: Number(price),
+//         description,
+//         size: JSON.parse(size),
+//         model,
+//         stars: Number(stars),
+//         facts: JSON.parse(facts)
+//     })
+
+//     bag.save((err, bagDB) => {
+//         if (err) {
+//             return res.status(400).json({
+//                 ok: false,
+//                 message: 'Fallo al guardar',
+//                 err
+//             })
+//         }
+
+//         res.json({bagDB});
+//     });
+// });
+
 
 router.get('/', function(req,res) {
     Bags.find({}).exec((err, bags) => {
