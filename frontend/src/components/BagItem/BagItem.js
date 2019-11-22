@@ -21,7 +21,7 @@ class BagItem extends Component {
             <div className={style.join(' ')}>
                 <div className='bag-item-img' onClick={this.props.viewMore}>
                     <img 
-                        src={this.props.url} 
+                        src={this.props.url}
                         alt={this.props.name}
                         onLoad={this.handleImageLoaded}/>
                     <div className="button add-cart" onClick={this.props.addToCart}>

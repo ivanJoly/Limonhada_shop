@@ -197,6 +197,10 @@
     .bag-item-container{
         flex: 0 50%;
     }
+
+    .bag-item-container .bag-item-img .button.add-cart{
+        transform: translate(-50%, 0%);
+    }
 }
 
 @media (max-width: 650px){

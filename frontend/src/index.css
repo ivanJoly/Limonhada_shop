@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Marcellus&display=swap');
 
 :root{
@@ -10,6 +10,10 @@
   --white-color: #f9f9f9;
   --grey-color: #f2f2f2;
   --grey-color-dark: #eaeaea;
+}
+
+html{
+  overflow-x: hidden;
 }
 
 body {
@@ -31,4 +35,11 @@ main{
 .container{
   max-width: 1140px;
   margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width:576px){
+  .container{
+    padding: 0 20px;
+  }
 }
