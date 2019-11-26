@@ -4,7 +4,7 @@ import BagItem from '../../components/BagItem/BagItem';
 
 const Api = require('../../config/apiConfig');
 require('./BagItems.css');
-const image_profile = require('../../assets/bag.png')
+// const image_profile = require('../../assets/bag.png')
 
 class BagItems extends Component{
     
@@ -70,18 +70,13 @@ class BagItems extends Component{
 
         let bags;
         let quantity = 0;
-        let img_p = null;
-
-        if(process.env.NODE_ENV === 'development'){
-            img_p = image_profile
-        }
 
         if(this.state.bags.length !== 0){
             bags = this.state.bags.map(bag => {
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={img_p}
+                    url={bag.image_profile.url}
                     name={bag.name}
                     slug={bag.slug}
                     model={bag.model[0]}
@@ -100,7 +95,7 @@ class BagItems extends Component{
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={img_p}
+                    url={bag.image_profile.url}
                     name={bag.name}
                     model={bag.model[0]}
                     price={bag.price}
