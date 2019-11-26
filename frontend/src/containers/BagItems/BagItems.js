@@ -4,6 +4,7 @@ import BagItem from '../../components/BagItem/BagItem';
 
 const Api = require('../../config/apiConfig');
 require('./BagItems.css');
+const image_profile = require('../../assets/bag.png')
 
 class BagItems extends Component{
     
@@ -28,9 +29,32 @@ class BagItems extends Component{
         alert('WIP ViewMore')
     }
 
-    addToCart = (e) => {
-        alert('WIP AddtoCart')
+    handleRemoveCart = (e, id, cart) => {
+        let newCart = JSON.parse(cart).filter(el => el != id);
+        localStorage.setItem('cart', JSON.stringify(newCart));
         e.stopPropagation()
+    }
+
+    handleAddCart = (e, id, cart) => {
+            let newCart = JSON.parse(cart);
+            newCart.push(id);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            e.stopPropagation()
+    }
+
+    handleCart = (e, id, actual) => {
+        let cart = localStorage.getItem('cart');
+        if(actual){
+            this.handleRemoveCart(e, id, cart)
+            this.setState({cart: false});
+
+            return false;
+        }else{
+            this.handleAddCart(e, id, cart)
+            this.setState({cart: true});
+
+            return true;
+        }
     }
 
     activeFilter = (e) => {
@@ -51,12 +75,14 @@ class BagItems extends Component{
             bags = this.state.bags.map(bag => {
                 return <BagItem
                     key={bag._id}
-                    url={bag.image_profile.url}
+                    id={bag._id}
+                    url={image_profile}
                     name={bag.name}
+                    slug={bag.slug}
                     model={bag.model[0]}
                     price={bag.price}
                     viewMore={this.viewMore}
-                    addToCart={this.addToCart}/>
+                    handleCart={this.handleCart}/>
             })
             quantity = bags.length;
         }
@@ -68,7 +94,8 @@ class BagItems extends Component{
             .map(bag => {
                 return <BagItem
                     key={bag._id}
-                    url={bag.image_profile.url}
+                    id={bag._id}
+                    url={image_profile}
                     name={bag.name}
                     model={bag.model[0]}
                     price={bag.price}

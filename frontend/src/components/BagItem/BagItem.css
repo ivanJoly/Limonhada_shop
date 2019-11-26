@@ -76,10 +76,18 @@
     transition: 0.5s all;
 }
 
+.bag-item-container .bag-item-img .button.add-cart svg{
+    fill: var(--grey-color);   
+}
+
 .bag-item-container .bag-item-img .button:hover{
     background-color: var(--grey-color);
     color: var(--primary-color-dark);
     border: 1px solid var(--primary-color-dark);
+}
+
+.bag-item-container .bag-item-img .button:hover > span svg{
+    fill: var(--primary-color-dark);
 }
 
 .bag-item-desc{
@@ -107,6 +115,10 @@
     letter-spacing: 1px;
     opacity: 0;
     transform: translateX(-100%);
+}
+
+.bag-item-desc .top .model svg{
+    cursor: pointer;
 }
 
 .bag-item-desc .bottom .price{

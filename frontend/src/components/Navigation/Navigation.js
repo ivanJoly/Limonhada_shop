@@ -23,6 +23,7 @@ class Navigation extends Component{
     }
 
     handleMenu = () => {
+        document.body.classList.toggle('menu-open')
         this.setState({navOpen: !this.state.navOpen});
     }
 

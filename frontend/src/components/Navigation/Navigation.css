@@ -1,3 +1,7 @@
+body.menu-open{
+    overflow-y: hidden;
+}
+
 header{
     background-color: var(--grey-color);
 }

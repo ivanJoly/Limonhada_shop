@@ -12,15 +12,13 @@
   --grey-color-dark: #eaeaea;
 }
 
-html{
-  overflow-x: hidden;
-}
-
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
 }
 
 code {

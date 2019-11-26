@@ -1,0 +1,27 @@
+.under-construction{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.under-construction h2{
+    text-align: center;
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 72px;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+}
+
+.under-construction h2 span{
+    display: block;
+}
+
+@media (max-width:767px){
+    .under-construction h2{
+        font-size: 44px;
+        line-height: 52px;
+    }
+}
