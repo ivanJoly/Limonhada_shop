@@ -4,7 +4,7 @@ import BagItem from '../../components/BagItem/BagItem';
 
 const Api = require('../../config/apiConfig');
 require('./BagItems.css');
-// const image_profile = require('../../assets/bag.png')
+const image_profile = require('../../assets/bag.png')
 
 class BagItems extends Component{
     
@@ -70,13 +70,23 @@ class BagItems extends Component{
 
         let bags;
         let quantity = 0;
+        
+        /*QUITAR LO DE IMG EN DEV AL TERMINAR EL PROCESO*/
+        let img_p;
 
         if(this.state.bags.length !== 0){
             bags = this.state.bags.map(bag => {
+
+                if(process.env.NODE_ENV === 'development'){
+                    img_p = image_profile
+                }else{
+                    img_p = bag.image_profile.url
+                }
+
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={bag.image_profile.url}
+                    url={img_p}
                     name={bag.name}
                     slug={bag.slug}
                     model={bag.model[0]}

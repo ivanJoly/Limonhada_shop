@@ -1,0 +1,12 @@
+.single-product-container{
+    display: flex;
+}
+.single-product-slider{
+    flex: 1 50%;
+}
+
+.single-product-info{
+    flex: 1 50%;
+    padding: 80px;
+    background-color: var(--secondary-color);
+}

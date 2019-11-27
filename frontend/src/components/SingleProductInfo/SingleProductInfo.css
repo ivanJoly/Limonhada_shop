@@ -1,0 +1,130 @@
+.single-product-info-container{
+}
+
+.single-product-info-container .model{
+    margin-bottom: 4px;
+}
+
+.single-product-info-container .model h3{
+    margin: 0;
+    color: var(--secondary-color-light);
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.single-product-info-container .name{
+    margin-bottom: 12px;
+}
+
+.single-product-info-container .name h1{
+    margin: 0 0 0 -2px;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 44px;
+    text-transform: uppercase;
+    color: var(--grey-color);
+}
+
+.single-product-info-container .price-and-stars{
+    margin-bottom: 44px;
+    display: flex;
+}
+
+.single-product-info-container .price-and-stars .price{
+    flex: 1;
+    color: var(--grey-color-dark);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.single-product-info-container .price-and-stars .stars{
+    flex: 0;
+    display: flex;
+}
+
+.single-product-info-container .facts .fact-heading{
+    margin: 0 0 8px 0;
+    color: var(--grey-color-dark);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.single-product-info-container .facts ul{
+    margin: 0;
+    list-style-type: circle;
+}
+
+.single-product-info-container .facts .facts-list{
+    color: var(--grey-color-dark);
+    font-size: 16px;
+    line-height: 32px;
+    font-weight: 300;
+}
+
+.single-product-info-container .line-separator{
+    height: 2px;
+    background: var(--grey-color-dark);
+    margin: 25px auto 25px auto;
+}
+
+.single-product-info-container .description{
+    margin-bottom: 44px;
+}
+
+.single-product-info-container .description p{
+    margin: 0;
+    color: var(--grey-color-dark);
+    font-size: 16px;
+    line-height: 32px;
+    font-weight: 300;
+    white-space: pre-line;
+}
+
+.single-product-info-container .to-buy{
+    display: flex;
+}
+
+.single-product-info-container .to-buy .quantity, .single-product-info-container .to-buy .add-to-cart{
+    flex: 1 50%;
+}
+
+.single-product-info-container .to-buy .add-to-cart{
+    text-align: right;
+}
+
+.single-product-info-container .to-buy .heart{
+    flex: 0;
+    margin-left: 12px;
+}
+
+.single-product-info-container .to-buy .add-to-cart button{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px;
+    background-color: var(--grey-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--grey-color);
+    width: 80%;
+    cursor: pointer;
+}
+
+.single-product-info-container .to-buy .heart button{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px;
+    background-color: var(--grey-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--grey-color);
+    width: 100%;
+    cursor: pointer;
+}

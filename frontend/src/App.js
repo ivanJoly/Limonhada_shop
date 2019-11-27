@@ -4,6 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import HeaderImg from './components/HeaderImg/HeaderImg';
 import BagItems from './containers/BagItems/BagItems';
+import SingleProduct from './containers/SingleProduct/SingleProduct';
 
 import UnderConstruction from './components/UnderConstruction/UnderConstruction'
 
@@ -19,7 +20,7 @@ function App() {
           </Fragment>
         }/>
         <Route path='/cart' exact component={UnderConstruction}/>
-        <Route path={`/bag/:name/:model`} exact component={UnderConstruction}/>
+        <Route path={`/bag/:name/:model`} exact component={SingleProduct}/>
         <Route path='/policy' exact component={UnderConstruction}/>
       </Layout>
     </div>
