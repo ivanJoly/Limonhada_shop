@@ -64,7 +64,7 @@ class SingleProduct extends Component {
         /*Cart Refactorizado*/
 
     render(){
-
+        console.log('props: ',this.props);
         let related;
 
         /*QUITAR LO DE IMG EN DEV AL TERMINAR EL PROCESO*/

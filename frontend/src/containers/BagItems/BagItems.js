@@ -74,6 +74,13 @@ class BagItems extends Component{
                 return el.model[0].toLowerCase() == this.state.active
             })
             .map(bag => {
+                
+                if(process.env.NODE_ENV === 'development'){
+                    img_p = image_profile
+                }else{
+                    img_p = bag.image_profile.url
+                }
+
                 return <BagItem
                     key={bag._id}
                     id={bag._id}

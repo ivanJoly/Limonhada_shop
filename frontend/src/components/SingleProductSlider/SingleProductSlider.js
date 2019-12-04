@@ -29,6 +29,7 @@ class SingleProductSlider extends Component{
     }
 
     render(){
+        
         let imagesDiv = this.state.imgs.map((img, index) => {
             return (
                 <div 
