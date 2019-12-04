@@ -106,6 +106,7 @@ class App extends Component {
           <Route path={`/bag/:name/:model`} exact 
           render= { props => (
             <SingleProduct
+              key={props.match.params.name}
               handleLikeHeart={this.handleLikeHeart}
               handleInitialLikeHeart={this.handleInitialLikeHeart}
               handleCart={this.handleCart}
