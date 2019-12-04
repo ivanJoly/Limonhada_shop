@@ -15,55 +15,45 @@ class BagItem extends Component {
     }
 
     componentDidMount(){
-        this.handleInitialLikeHeart(this.props.id);
-        this.handleInitialCart(this.props.id);
+        this.handleInitialLikeHeartItem(this.props.id);
+        this.handleInitialCartItem(this.props.id);
     }
 
     handleImageLoaded = () => {
         this.setState({image_loaded: true})
     }
 
-    handleInitialLikeHeart = (id) => {
-        if(localStorage.getItem(id)){
-            this.setState({like: true})
-        }
+    /*HEART*/
+
+    handleInitialLikeHeartItem = async (id) => {
+        let response = await this.props.handleInitialLikeHeart(id);
+        console.log('response', response);
+        this.setState({like: response});
     }
 
-    handleRemoveLikeHeart = (id) => {
-        localStorage.removeItem(id);
-        this.setState({like: false});
+    handleLikeHeartItem = async (id, actual) => {
+        let response = await this.props.handleLikeHeart(id, actual);
+        console.log('response', response);
+        this.setState({like: response});
     }
 
-    handleAddLikeHeart = (id) => {
-        localStorage.setItem(id, true);
-        this.setState({like: true});
-    }
+    /*HEART*/
 
-    handleLikeHeart = (id) => {
-        if(this.state.like){
-            this.handleRemoveLikeHeart(id);
-        }else{
-            this.handleAddLikeHeart(id);
-        }
-    }
+    /*Cart Refactorizado*/
 
-    handleInitialCart = (id) => {
-        let cart = localStorage.getItem('cart');
-        if(cart){
-            let okCart = JSON.parse(cart);
-            if (okCart.find(el => el === id)){
-                this.setState({cart: true});
-            }
-        }else{
-            let arr = []
-            localStorage.setItem('cart', JSON.stringify(arr));
-        }
+    handleInitialCartItem = (e, id, actual) => {
+        let response = this.props.handleInitialCart(e, id, actual);
+        this.setState({cart: response})
     }
 
     handleCartItem = (e, id, actual) => {
         let response = this.props.handleCart(e, id, actual);
         this.setState({cart: response});
     }
+
+    /*Cart Refactorizado*/
+
+    /*Handle Routes*/
 
     handleRouteCart = (e) => {
         this.props.history.push({
@@ -77,6 +67,8 @@ class BagItem extends Component {
             pathname: `/bag/${slug}/${model.toLowerCase()}`
           })
     }
+
+    /*Handle Routes*/
 
     render(){
         let style = []
@@ -117,9 +109,9 @@ class BagItem extends Component {
                             {
                                 this.state.like 
                                 ? 
-                                <MdHeart color="#ec5e54" onClick={() => this.handleLikeHeart(this.props.id)}/> 
+                                <MdHeart color="#ec5e54" onClick={() => this.handleLikeHeartItem(this.props.id, this.state.like)}/> 
                                 : 
-                                <MdHeartOutline onClick={() => this.handleLikeHeart(this.props.id)}/>
+                                <MdHeartOutline onClick={() => this.handleLikeHeartItem(this.props.id, this.state.like)}/>
                             }
                         </div>
                         <span className="line"></span>

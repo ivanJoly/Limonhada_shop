@@ -133,10 +133,11 @@ router.get('/', function(req,res) {
     })
 })
 
-router.get('/:name', function(req, res) {
-    let slug = req.params.name
+router.get('/:slug/:model', function(req, res) {
+    let slug = req.params.slug
+    let model = req.params.model
 
-    Bags.findOne({slug:slug}, (err, bag) => {
+    Bags.findOne({slug: slug, "model.0": model}, (err, bag) => {
         if (err){
             return res.status(400).json({
                 ok: true,
@@ -153,11 +154,52 @@ router.get('/:name', function(req, res) {
             })
         }
 
-        res.json({
-            ok: true,
-            bag
-        })
+        Bags.find({}).exec((err, bags) => {
+            if(err){
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            let arrNumbers = [];
+            let arrFilter = bags.filter(bagRelated => {
+                let BRid = JSON.stringify(bagRelated._id);
+                let Bid = JSON.stringify(bag._id);
 
+                return  BRid != Bid ? bagRelated : false;
+            });
+
+            while (!(arrNumbers.length == 4)) {
+                let alt = Math.floor(Math.random() * ((arrFilter.length) - 1) + 1);
+                if(arrNumbers.length == 0){
+                    arrNumbers.push(alt)
+                }else{
+                    let valid = true
+                    for (let b = 0; b < arrNumbers.length; b++) {
+                        if (arrNumbers[b] == alt){
+                            valid = false
+                        }
+                    }
+        
+                    if(valid){
+                        arrNumbers.push(alt)
+                    }
+                }
+            }
+
+            let related = arrNumbers.map(number => {
+                return arrFilter[number - 1];
+            })
+
+
+            res.json({
+                ok: true,
+                bag,
+                related
+            })
+
+        })       
     })
 })
+
 module.exports = router;

@@ -25,38 +25,6 @@ class BagItems extends Component{
         })
     }
 
-    viewMore = () => {
-        alert('WIP ViewMore')
-    }
-
-    handleRemoveCart = (e, id, cart) => {
-        let newCart = JSON.parse(cart).filter(el => el != id);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        e.stopPropagation()
-    }
-
-    handleAddCart = (e, id, cart) => {
-            let newCart = JSON.parse(cart);
-            newCart.push(id);
-            localStorage.setItem('cart', JSON.stringify(newCart));
-            e.stopPropagation()
-    }
-
-    handleCart = (e, id, actual) => {
-        let cart = localStorage.getItem('cart');
-        if(actual){
-            this.handleRemoveCart(e, id, cart)
-            this.setState({cart: false});
-
-            return false;
-        }else{
-            this.handleAddCart(e, id, cart)
-            this.setState({cart: true});
-
-            return true;
-        }
-    }
-
     activeFilter = (e) => {
         const clicked = e.target.id
         if(clicked == 'all'){
@@ -92,7 +60,11 @@ class BagItems extends Component{
                     model={bag.model[0]}
                     price={bag.price}
                     viewMore={this.viewMore}
-                    handleCart={this.handleCart}/>
+
+                    handleLikeHeart={this.props.handleLikeHeart}
+                    handleInitialLikeHeart={this.props.handleInitialLikeHeart}
+                    handleCart={this.props.handleCart}
+                    handleInitialCart={this.props.handleInitialCart}/>
             })
             quantity = bags.length;
         }
@@ -105,12 +77,16 @@ class BagItems extends Component{
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={bag.image_profile.url}
+                    url={img_p}
                     name={bag.name}
                     model={bag.model[0]}
                     price={bag.price}
                     viewMore={this.viewMore}
-                    addToCart={this.addToCart}/>
+
+                    handleLikeHeart={this.props.handleLikeHeart}
+                    handleInitialLikeHeart={this.props.handleInitialLikeHeart}
+                    handleCart={this.props.handleCart}
+                    handleInitialCart={this.props.handleInitialCart}/>
             })
             quantity = bags.length;
         }

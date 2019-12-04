@@ -1,66 +1,129 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import MdStar from 'react-ionicons/lib/MdStar';
 import MdHeart from 'react-ionicons/lib/MdHeart';
-
+import MdHeartOutline from 'react-ionicons/lib/MdHeartOutline';
+import IosCartOutline from 'react-ionicons/lib/IosCartOutline';
 
 require('./SingleProductInfo.css');
 
-const SingleProductInfo = (props) =>{ 
+class SingleProductInfo extends Component{
+
+    handleRouteCart = (e) => {
+        this.props.history.push({
+            pathname: `/cart`
+          })
+          e.stopPropagation()
+    }
+
+    render(){
+        let model;
+        let name;
+        let price;
+        let stars;
+        let facts;
+        let description;
+
+        if(this.props.bag.length == 0){
+            model = <span></span>;
+            name = <span></span>;
+            price = <span></span>;
+            stars = <span></span>;
+            facts = (
+                [...Array(3)].map( el => {
+                    return <span></span>;
+                })
+            )
+            description = <span></span>;
+        }else{
+            model = (`${this.props.bag.model} bag`);
+            name = (`${this.props.bag.name}`);
+            price = (
+                <Fragment>
+                    <span>$</span>
+                    <span>{this.props.bag.price}</span>
+                </Fragment>
+            )
+            stars = (
+                [...Array(5)].map( (star, index) => {
+                    return <MdStar color={this.props.bag.stars > index ? '#eaeaea' : '#9E9E9E'}/>
+                })
+            )
+            facts = (
+                this.props.bag.facts.map( el => {
+                    return <li>{el}</li>;
+                })
+            )
+            description = (`${this.props.bag.description}`)
+
+        }
+    
     return(
-        <div className="single-product-info-container">
+        <div className={`single-product-info-container ${this.props.bag ? 'loaded' : ' '}`}>
             <div className="model">
-                <h3>Tote bag</h3>
+                <h3>{model}</h3>
             </div>
             <div className="name">
-                <h1>Ride a unicorn</h1>
+                <h1>{name}</h1>
             </div>
             <div className="price-and-stars">
                 <div className="price">
-                    <span>$</span>
-                    <span>220.00</span>
+                    {price}
                 </div>
                 <div className="stars">
-                    <MdStar color='#eaeaea'/>
-                    <MdStar color='#eaeaea'/>
-                    <MdStar color='#eaeaea'/>
-                    <MdStar color='#eaeaea'/>
-                    <MdStar color='#9E9E9E'/>
+                    {stars}
                 </div>
             </div>
             <div className="facts">
                 <h3 className='fact-heading'>3 simple facts</h3>
                 <div className="facts-list">
                     <ul>
-                        <li>comfortable and easy to transport</li>
-                        <li>economical but quality</li>
-                        <li>please! You ride a unicorn</li>
+                        {facts}
                     </ul>
                 </div>
             </div>
             <div className="line-separator"></div>
             <div className="description">
                 <p>
-                    {
-                    `Bolso hecho a mano en tela 100% algodón.
-                    Resistente, con manija de tela!
-                    Medidas: 42x37cm y manijas de 35cm de alto (desde el hombro a la apertura del bolso)
-                    Estampado con Diseño único!`
-                    }
+                    {description}
                 </p>
             </div>
             <div className="to-buy">
                 <div className="quantity"></div>
                 <div className="add-to-cart">
-                    <button>Add To Cart</button>
+                {
+                        this.props.cart ?
+                        (
+                        <button onClick={(e) => this.handleRouteCart(e)}>
+                            <span>
+                                <IosCartOutline fontSize="18px"/>
+                            </span>
+                        </button>
+                        )
+                        :
+                        (
+                        <button onClick={(e) => this.props.handleCart(e, this.props.bag._id, this.props.cart)}>
+                            Add to Cart
+                        </button>
+                        )
+                    }
                 </div>
                 <div className="heart">
-                    <button>
-                        <MdHeart color='#ec5e54'/>
+                    <button onClick={() => this.props.handleLikeHeart(this.props.bag._id, this.props.like)}>
+                            {
+                                this.props.like 
+                                ? 
+                                <MdHeart color="#ec5e54"/> 
+                                : 
+                                <MdHeartOutline/>
+                            }
                     </button>
                 </div>
             </div>
         </div>
-)
+        )
+    }
 }
 
-export default SingleProductInfo;
+export default withRouter(SingleProductInfo);

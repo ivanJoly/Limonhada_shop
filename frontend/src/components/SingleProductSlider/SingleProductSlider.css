@@ -1,0 +1,72 @@
+.single-product-slider-container{
+    height: 100%;
+    width: 100%;
+    background-color: var(--secondary-color-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.single-product-slider-container .image-container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transition: 0.5s all;
+    opacity: 0;
+}
+
+.single-product-slider-container.loaded .image-container{
+    animation: slide_to_left_with_opacity;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+    animation-delay: 0.4s;
+}
+
+.buttons-container{
+    position: absolute;
+    z-index: 99;
+    bottom: 0;
+}
+
+.buttons-container button{
+    user-select: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 20px;
+    background-color: var(--grey-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--grey-color);
+    cursor: pointer;
+
+    transition: 0.3s all;
+}
+
+.buttons-container button.disabled{
+    /* background-color: var(--white-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--white-color); */
+    opacity: 0.5;
+    color: var(--secondary-color-light);
+    cursor: default;
+    pointer-events: none;
+
+}
+
+.buttons-container button:focus{
+    outline: none;
+}
+
+@keyframes slide_to_left_with_opacity {
+    0%   { 
+        opacity: 0;
+
+    }
+    100% { 
+        opacity: 1;
+    }
+}
