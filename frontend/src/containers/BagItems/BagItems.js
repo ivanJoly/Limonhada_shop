@@ -59,7 +59,6 @@ class BagItems extends Component{
                     slug={bag.slug}
                     model={bag.model[0]}
                     price={bag.price}
-                    viewMore={this.viewMore}
 
                     handleLikeHeart={this.props.handleLikeHeart}
                     handleInitialLikeHeart={this.props.handleInitialLikeHeart}
@@ -86,9 +85,9 @@ class BagItems extends Component{
                     id={bag._id}
                     url={img_p}
                     name={bag.name}
+                    slug={bag.slug}
                     model={bag.model[0]}
                     price={bag.price}
-                    viewMore={this.viewMore}
 
                     handleLikeHeart={this.props.handleLikeHeart}
                     handleInitialLikeHeart={this.props.handleInitialLikeHeart}

@@ -76,6 +76,7 @@ class BagItem extends Component {
         if(this.state.image_loaded){
             style.push('loaded');
         }
+
         return(
             <div className={style.join(' ')}>
                 <div className='bag-item-img' onClick={() => this.handleRouteItem(this.props.slug, this.props.model)}>
