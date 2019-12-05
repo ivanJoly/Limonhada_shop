@@ -110,7 +110,7 @@ class SingleProductInfo extends Component{
                     }
                 </div>
                 <div className="heart">
-                    <button onClick={() => this.props.handleLikeHeart(this.props.bag._id, this.props.like)}>
+                    <button className={`${this.props.like ? 'active': 'unactive'}`} onClick={() => this.props.handleLikeHeart(this.props.bag._id, this.props.like)}>
                             {
                                 this.props.like 
                                 ? 

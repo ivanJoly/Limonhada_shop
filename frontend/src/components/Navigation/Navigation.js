@@ -46,7 +46,7 @@ class Navigation extends Component{
                         <h2>Limonhada</h2>
                     </div>
                     <div className='cart'>
-                        <Link to='cart'>Cart</Link>
+                        <Link to='/cart'>Cart</Link>
                     </div>
                 </div>
             </Fragment>

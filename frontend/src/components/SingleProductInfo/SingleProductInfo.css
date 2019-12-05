@@ -201,6 +201,7 @@
 
 .single-product-info-container .to-buy .add-to-cart{
     text-align: right;
+    transition: 0.5s all;
 }
 
 .single-product-info-container .to-buy .heart{
@@ -231,6 +232,20 @@
     max-width: 300px;
     cursor: pointer;
 }
+.single-product-info-container .to-buy .add-to-cart button:focus, .single-product-info-container .to-buy .heart button:focus{
+    outline: none;
+}
+
+.single-product-info-container .to-buy .add-to-cart button:hover{
+    background-color: var(--secondary-color);
+    color: var(--grey-color);
+    border: 1px solid var(--grey-color);
+}
+
+.single-product-info-container .to-buy .add-to-cart button:hover > span svg {
+    fill: var(--grey-color);
+}
+
 .single-product-info-container .to-buy .add-to-cart button span{
     display: flex;
     justify-content: center;
@@ -241,12 +256,27 @@
     text-transform: uppercase;
     font-size: 16px;
     font-weight: 600;
-    padding: 12px;
+    padding: 14px;
+    display: flex;
     background-color: var(--grey-color);
     color: var(--secondary-color);
     border: 1px solid var(--grey-color);
     width: 100%;
     cursor: pointer;
+}
+
+.single-product-info-container .to-buy .heart button:hover {
+    background-color: var(--secondary-color-light);
+    border: 1px solid var(--grey-color);
+}
+
+.single-product-info-container .to-buy .heart button:hover.unactive{
+    background-color: var(--secondary-color);
+    border: 1px solid var(--grey-color);
+}
+
+.single-product-info-container .to-buy .heart button:hover.unactive > svg{
+    fill: var(--grey-color);
 }
 
 @media (max-width: 768px){
