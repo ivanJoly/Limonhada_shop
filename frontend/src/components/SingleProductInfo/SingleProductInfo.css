@@ -232,6 +232,7 @@
     max-width: 300px;
     cursor: pointer;
 }
+
 .single-product-info-container .to-buy .add-to-cart button:focus, .single-product-info-container .to-buy .heart button:focus{
     outline: none;
 }
@@ -291,6 +292,11 @@
     }
 }
 
+@media (max-width: 500px){
+    .single-product-info-container .to-buy .add-to-cart button{
+        max-width: unset;
+    }
+}
 
 @keyframes slide_down_with_opacity {
     0%   { 

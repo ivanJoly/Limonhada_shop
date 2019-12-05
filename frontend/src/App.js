@@ -7,6 +7,8 @@ import HeaderImg from './components/HeaderImg/HeaderImg';
 import BagItems from './containers/BagItems/BagItems';
 import SingleProduct from './containers/SingleProduct/SingleProduct';
 
+import Cart from './containers/Cart/Cart';
+
 import UnderConstruction from './components/UnderConstruction/UnderConstruction'
 
 class App extends Component {
@@ -104,7 +106,11 @@ class App extends Component {
             </Fragment>
             )
           }/>
-          <Route path='/cart' exact component={UnderConstruction}/>
+          <Route path='/cart' exact render = {props => (
+            <Cart
+            handleCart={this.handleCart}/>
+          )
+          }/>
           <Route path={`/bag/:name/:model`} exact 
           render= { props => (
             <SingleProduct

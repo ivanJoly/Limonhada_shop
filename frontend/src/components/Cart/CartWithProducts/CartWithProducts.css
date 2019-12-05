@@ -1,0 +1,14 @@
+.cart-with-products{
+    display: flex;
+    flex-direction: row;
+    min-height: inherit;
+}
+
+.cart-with-products .cart-list-container{
+    flex: 1 70%;
+}
+
+
+.cart-with-products .cart-summary-container{
+    flex: 1 30%;
+}
