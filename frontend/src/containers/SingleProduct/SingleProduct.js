@@ -115,6 +115,10 @@ class SingleProduct extends Component {
                     </div>
                 </div>
                 <div className='container'>
+                    <div className="bag-related-title">
+                        <h2 className='heading'>Related products</h2>
+                        <div className='line-separator'></div>
+                    </div>
                     <div className="bag-related-items">
                         {related}
                     </div>

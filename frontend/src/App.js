@@ -2,6 +2,7 @@ import React, { Component, Fragment} from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
+import ScrollToTop from './hoc/ScrollToTop/ScrollToTop';
 import HeaderImg from './components/HeaderImg/HeaderImg';
 import BagItems from './containers/BagItems/BagItems';
 import SingleProduct from './containers/SingleProduct/SingleProduct';
@@ -87,6 +88,7 @@ class App extends Component {
   render(){
 
     return (
+      <ScrollToTop>
       <div className="App">
         <Layout>
           <Route path='/' exact component={UnderConstruction}/>
@@ -116,6 +118,7 @@ class App extends Component {
           <Route path='/policy' exact component={UnderConstruction}/>
         </Layout>
       </div>
+      </ScrollToTop>
     );
   }
 }
