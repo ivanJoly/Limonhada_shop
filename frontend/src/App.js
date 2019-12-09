@@ -50,10 +50,10 @@ class App extends Component {
   }
 
   handleAddCart = (e, id, cart) => {
-          let newCart = JSON.parse(cart);
-          newCart.push(id);
-          localStorage.setItem('cart', JSON.stringify(newCart));
-          e.stopPropagation()
+    let newCart = JSON.parse(cart);
+    newCart.push(id);
+    localStorage.setItem('cart', JSON.stringify(newCart));
+    e.stopPropagation()
   }
 
   handleInitialCart = (id) => {

@@ -3,6 +3,25 @@ import React from 'react';
 require('./CartSummary.css')
 
 const CartSummary = (props) => {
+    let subtotal = 0;
+    let shipping = 0;
+    let tax = 1.5;
+    let totalPrice;
+
+    if(props.cart.length != 0){
+        props.cart.map(bag => {
+            subtotal = subtotal + (bag.price * bag.quantity)
+        });
+
+        if(subtotal > 600){
+            shipping = 0;
+        }else{
+            shipping = 50;
+        }
+
+        totalPrice = (subtotal + shipping) * tax;
+    }
+
     return(
         <div className='cart-summary'>
             <div className="order-summary">
@@ -11,21 +30,21 @@ const CartSummary = (props) => {
             <div className="line-separator"></div>
             <div className="subtotal-container">
                 <span>Subtotal</span>
-                <span className='subtotal-value'>$200.00</span>
+                <span className='subtotal-value'>${subtotal}</span>
             </div>
             <div className="shipping-container">
                 <span>Shipping</span>
                 <span className='shipping-value'>
-                    {props.priceTotal > 450 ? 'Free' : `$${props.shippingValue}`}
+                    {shipping == 0 ? `Free` : `$${shipping}`}
                 </span>
             </div>
             <div className="tax-container">
                 <span>Taxes</span>
-                <span className='tax-value'>1.5%</span>
+                <span className='tax-value'>{tax}%</span>
             </div>
             <div className="price-container">
                 <span>Estimated Total</span>
-                <span className='price-total'>$2005.00</span>
+                <span className='price-total'>${totalPrice}</span>
             </div>
             <div className="line-separator top"></div>
             <div className="details">

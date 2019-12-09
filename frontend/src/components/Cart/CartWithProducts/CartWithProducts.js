@@ -7,16 +7,25 @@ require('./CartWithProducts.css')
 
 const CartWithProducts = (props) => {
     return(
-        <div className='container cart-with-products'>
-            <div className='cart-list-container'>
-                <CartList
-                />
+        <div className='container cart-with-products-container'>
+            <div className='cart-title'>
+                <h2 className='heading'>Shopping Cart</h2>
+                <div className='line-separator'></div>
             </div>
-            <div className='cart-summary-container'>
-                <CartSummary 
-                shippingValue={28}
-                priceTotal={200}/>
+            <div className='cart-with-products'>
+                <div className='cart-list-container'>
+                    <CartList
+                    handleCartWP={props.handleCart}
+                    upWP={props.up}
+                    downWP={props.down}
+                    cartWP={props.cart}/>
+                </div>
+                <div className='cart-summary-container'>
+                    <CartSummary 
+                    cart={props.cart}/>
+                </div>
             </div>
+            
         </div>
     )
 }

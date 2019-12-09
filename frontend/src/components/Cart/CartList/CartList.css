@@ -1,8 +1,9 @@
 .cart-list-table{
     display: table;
-    width: 100%;
+    width: 95%;
     border: 1px solid var(--grey-color);
     box-sizing: border-box;
+    border-collapse: collapse;
 }
 
 .cart-list-table thead tr{
@@ -34,7 +35,7 @@
 }
 .cart-list-table thead tr .head-remove{
     text-align: center;
-    width: 15%;
+    width: 10%;
 }
 
 .cart-list-table tbody tr td{
@@ -49,13 +50,27 @@
     text-align: center;
 }
 
+.cart-list-table tbody tr td.cart-name span{
+    color: var(--primary-color-light);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.cart-list-table tbody tr td.cart-price span{
+    color: var(--primary-color-light);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
 .cart-list-table tbody tr td .cart-quantity{
     display: flex;
 }
 
 .cart-list-table tbody tr td .cart-quantity input{
     text-align: center;
-    width: 52px;
+    width: 44px;
     box-sizing: border-box;
     border: 1px solid var(--grey-color);
 }
@@ -70,7 +85,7 @@
     text-transform: uppercase;
     font-size: 16px;
     font-weight: 600;
-    padding: 12px;
+    padding: 8px;
     background-color: var(--grey-color);
     color: var(--secondary-color);
     border: 1px solid var(--grey-color);
@@ -94,10 +109,53 @@
 .cart-list-table tbody tr td.cart-remove svg{
     fill: var(--secondary-color);
     cursor: pointer;
-
+    margin-top: 4px;
     transition: 0.5s all;
 }
 
 .cart-list-table tbody tr td.cart-remove svg:hover{
     fill: var(--secondary-color-light);
+}
+
+
+@media (max-width: 768px){
+    .cart-list-table thead tr .head-img {
+        width: 20%;
+    }
+
+    .cart-list-table thead tr .head-price {
+        width: 10%;
+    }
+    .cart-list-table thead tr .head-remove {
+        width: 8%;
+    }
+}
+
+@media (max-width: 576px){
+    .cart-list-table thead tr .head-img {
+        width: 10%;
+    }
+
+    .cart-list-table thead tr .head-remove {
+        width: 12%;
+    }
+
+    .cart-list-table thead tr .head-name {
+        display: none;
+    }
+
+    .cart-list-table tbody tr td.cart-name {
+        display: none;
+    }
+    .cart-list-table thead tr .head-quantity, .cart-list-table thead tr .head-price{
+        text-align: center;
+    }
+
+    .cart-list-table tbody tr td.cart-price{
+        text-align: center;
+    }
+
+    .cart-list-table tbody tr td .cart-quantity {
+        justify-content: center;
+    }
 }

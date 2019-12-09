@@ -202,4 +202,57 @@ router.get('/:slug/:model', function(req, res) {
     })
 })
 
+router.get('/cart', function(req,res) {
+    Bags.find({}).exec((err, bags) => {
+        if(err){
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        Bags.countDocuments((err, quantity) => {
+            res.json({
+                ok: true,
+                quantity,
+                bags
+            })
+        })
+    })
+})
+
+router.post('/cart', async function(req, res) {
+
+    let res_promises = req.body.map(id => new Promise((resolve, reject) => {
+            Bags.findOne({_id: id}, "_id name image_profile price", (err, bag) => {
+                if (err){
+                    reject(err)
+                }
+        
+                if(!bag){
+                    reject(err)
+                }
+
+                resolve(bag)
+            })
+        })
+    )
+
+    await Promise.all(res_promises)
+    .then(result => {
+
+        res.json({
+            ok: true,
+            bags: result
+        })
+    })
+    .catch(err => {
+
+        res.json({
+            ok: false,
+            err
+        })
+    })
+})
+
 module.exports = router;
