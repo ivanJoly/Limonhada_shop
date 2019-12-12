@@ -14,7 +14,7 @@ class Footer extends Component{
     state={
         subscribe: false,
         mail: '',
-        mailResponse: 'Thanks for subscribe us!'
+        mailResponse: ''
     }
 
     handleChange = (e) => {
