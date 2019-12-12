@@ -21,7 +21,8 @@ const CartWithProducts = (props) => {
                     cartWP={props.cart}/>
                 </div>
                 <div className='cart-summary-container'>
-                    <CartSummary 
+                    <CartSummary
+                    handleModal={props.handleModal}
                     cart={props.cart}/>
                 </div>
             </div>

@@ -95,6 +95,8 @@ footer .top .redes svg:last-child{
 footer .subscribe{
     text-align: center;
     margin-top: 24px;
+    font-size: 14px;
+    color: var(--primary-color-light);
 }
 
 footer .line-separator{

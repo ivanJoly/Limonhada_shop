@@ -1,0 +1,22 @@
+.modal {
+    position: fixed;
+    z-index: 500;
+    background-color: white;
+    width: 95%;
+    max-width: 700px;
+    border: 10px solid var(--secondary-color);
+    
+    padding: 40px;
+    left: 50%;
+    top: 50%;
+    box-sizing: border-box;
+
+    transform: translate(-50%, -100vw);
+    opacity: 0;
+    transition: all 0.8s ease-out;
+}
+
+.modal.active{
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}

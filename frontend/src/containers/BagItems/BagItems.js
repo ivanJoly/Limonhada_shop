@@ -15,13 +15,23 @@ class BagItems extends Component{
     }
 
     componentDidMount(){
-        fetch(`${Api.config.url}/api/bags/`)
+        fetch(`${Api.config.url}/api/bags/`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+        })
         .then(response => {
+            console.log(response);
             return response.json();
         })
         .then(result => {
             console.log(result);
             this.setState({bags: result.bags});
+        })
+        .catch(err => {
+            console.log('error:', err);
         })
     }
 

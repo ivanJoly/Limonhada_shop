@@ -70,6 +70,11 @@ router.post('/', async function(req, res) {
                   console.log('all files removed');
                 }
               });
+
+            res.set({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
     
             res.json({bagDB});
         });
@@ -124,6 +129,12 @@ router.get('/', function(req,res) {
         }
 
         Bags.countDocuments((err, quantity) => {
+
+            res.set({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+
             res.json({
                 ok: true,
                 quantity,
@@ -191,6 +202,11 @@ router.get('/:slug/:model', function(req, res) {
                 return arrFilter[number - 1];
             })
 
+            res.set({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+   
 
             res.json({
                 ok: true,
@@ -212,6 +228,11 @@ router.get('/cart', function(req,res) {
         }
 
         Bags.countDocuments((err, quantity) => {
+            res.set({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+
             res.json({
                 ok: true,
                 quantity,
@@ -240,6 +261,11 @@ router.post('/cart', async function(req, res) {
 
     await Promise.all(res_promises)
     .then(result => {
+
+        res.set({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        })
 
         res.json({
             ok: true,

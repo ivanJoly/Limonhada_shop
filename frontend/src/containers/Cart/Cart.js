@@ -1,5 +1,8 @@
 import React,{ Component, Fragment } from 'react';
 
+import Loading from '../../components/Loading/Loading';
+import Modal from '../../components/Modal/Modal';
+import CartThank from '../../components/Cart/CartThank/CartThank';
 import CartWithProducts from '../../components/Cart/CartWithProducts/CartWithProducts';
 import CartWithoutProducts from '../../components/Cart/CartWithoutProducts/CartWithoutProducts';
 
@@ -8,7 +11,8 @@ const Api = require('../../config/apiConfig');
 class Cart extends Component{
     state = {
         cart:[],
-        loading: true
+        loading: true,
+        modal: false
     }
 
     componentDidMount(){
@@ -22,9 +26,11 @@ class Cart extends Component{
                 }
             })
             .then(response => {
+                console.log(response);
                 return response.json();
             })
             .then(result => {
+                console.log(result);
                 let bagsNew = result.bags.map(bag => {
                     bag.quantity = 1;
                     return bag;
@@ -33,12 +39,24 @@ class Cart extends Component{
                 this.setState({cart: bagsNew,  loading: false});
             })
             .catch(err => {
+                console.log('error');
                 console.log(err);
             })
         }else{
             console.log('Here');
             this.setState({loading: false})
         }
+    }
+
+    handleModalOpen = () => {
+        this.setState({modal: true});
+
+    }
+
+    handleModalClose = () => {
+        let arr = []
+        localStorage.setItem('cart', JSON.stringify(arr));
+        this.setState({modal: false, cart:[]});
     }
 
     handleCartItem = (e, id, actual) => {
@@ -81,12 +99,13 @@ class Cart extends Component{
         let cart;
         console.log(this.state.cart);
         if(this.state.cart.length == 0 && this.state.loading == true){
-            cart = <span>Loading</span>
+            cart = <Loading />
         }else if (this.state.cart.length == 0 && this.state.loading == false){
             cart = <CartWithoutProducts />
         }else if(this.state.cart.length != 0 && this.state.loading == false){
             cart = <CartWithProducts
                 handleCart={this.handleCartItem}
+                handleModal={this.handleModalOpen}
                 up= {this.handledUpQuantity}
                 down={this.handledDownQuantity}
                 cart={this.state.cart}/>
@@ -95,6 +114,9 @@ class Cart extends Component{
         return(
             <Fragment>
                 {cart}
+                <Modal show={this.state.modal} close={this.handleModalClose}>
+                    <CartThank/>
+                </Modal>
             </Fragment>
         )
     }
