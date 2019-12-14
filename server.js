@@ -19,12 +19,12 @@ app.use(express.urlencoded({extended: false}));
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/img/uploads'),
     filename: (req, file, cb, filename) => {
-        cb(null, new Date().getTime() + path.extname(file.originalname));
+        cb(null, new Date().getTime() + file.fieldname + path.extname(file.originalname));
     }
 })
 
 app.use(multer({storage}).fields([{ name: 'image_profile', maxCount: 1 }, { name: 'images', 
-maxCount: 3 }]));
+maxCount: 4 }]));
 // app.use(multer({storage}).single('image_profile'));
 
 // --Database--

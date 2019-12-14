@@ -1,4 +1,5 @@
 import React,{ Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Loading from '../../components/Loading/Loading';
 import Modal from '../../components/Modal/Modal';
@@ -22,15 +23,14 @@ class Cart extends Component{
                 method: 'POST',
                 body: JSON.stringify(localS),
                 headers:{
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
                 }
             })
             .then(response => {
-                console.log(response);
                 return response.json();
             })
             .then(result => {
-                console.log(result);
                 let bagsNew = result.bags.map(bag => {
                     bag.quantity = 1;
                     return bag;
@@ -43,7 +43,6 @@ class Cart extends Component{
                 console.log(err);
             })
         }else{
-            console.log('Here');
             this.setState({loading: false})
         }
     }
@@ -57,6 +56,7 @@ class Cart extends Component{
         let arr = []
         localStorage.setItem('cart', JSON.stringify(arr));
         this.setState({modal: false, cart:[]});
+        this.props.history.push('/');
     }
 
     handleCartItem = (e, id, actual) => {
@@ -69,7 +69,6 @@ class Cart extends Component{
     }
 
     handledUpQuantity = (id) => {
-        console.log(id);
         let arrNew = [...this.state.cart];
         arrNew.map(bag => {
             if(bag._id == id){
@@ -97,7 +96,6 @@ class Cart extends Component{
 
     render(){
         let cart;
-        console.log(this.state.cart);
         if(this.state.cart.length == 0 && this.state.loading == true){
             cart = <Loading />
         }else if (this.state.cart.length == 0 && this.state.loading == false){
@@ -115,11 +113,11 @@ class Cart extends Component{
             <Fragment>
                 {cart}
                 <Modal show={this.state.modal} close={this.handleModalClose}>
-                    <CartThank/>
+                    <CartThank close={this.handleModalClose}/>
                 </Modal>
             </Fragment>
         )
     }
 }
 
-export default Cart;
+export default withRouter(Cart);

@@ -6,7 +6,6 @@ import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
 const img_thumbail = require('../../../assets/bag.png')
 
 const CartListItem = (props) => {
-    console.log('cartListItem', props);
     let items;
 
     if(!props.cartL.length == 0){
@@ -14,7 +13,7 @@ const CartListItem = (props) => {
             return(
                 <tr key={item._id}>
                     <td className='cart-thumbail'>
-                        <img src={img_thumbail} alt=""/>
+                        <img src={item.image_profile.secure_url} alt=""/>
                     </td>
                     <td className='cart-name'>
                         <span>{item.name}</span>

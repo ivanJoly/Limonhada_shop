@@ -8,30 +8,41 @@ const Bags = require('../models/bags');
 const cloudinary = require('../config/cloudinary');
 
 const { deleteFiles } = require('../functions/functions');
-const { verifyExist } = require('../middlewares/verifySlug');
+const { verifyExist } = require('../middlewares/verifyExist');
 
-router.post('/', async function(req, res) {
-    console.log(req.body);
+let folderImgs;
+
+if(process.env.NODE_ENV !== 'production'){
+    folderImgs = "limonhada_imgs_test/"
+}else{
+    folderImgs = "limonhada_imgs/"
+}
+
+router.post('/', verifyExist, async function(req, res) {
+    
     const {name, price, description, model, slug, size, stars, facts} = req.body;
-    var imagesArr = req.files.images.slice().concat(req.files.image_profile);
+    let imagesArr = req.files.images.slice().concat(req.files.image_profile);
 
     let res_promises = imagesArr.map(file => new Promise((resolve, reject) => {
-        cloudinary.v2.uploader.upload(file.path, { use_filename: true, unique_filename: false }, function (error, result) {
-            if(error){reject(error)
-            } else if(file.fieldname === 'image_profile') {
-                result.profile = true
-                resolve(result)
-            } else {
-                resolve(result)  
-            }
+            cloudinary.v2.uploader.upload(file.path, { use_filename: true, folder: folderImgs, unique_filename: false }, function (error, result) {
+                if(error){
+                    console.log('error_cloudinary: ', error);
+                    reject(error)
+                } else if(file.fieldname === 'image_profile') {
+                    console.log('ok_cloudinary profile');
+                    result.profile = true
+                    resolve(result)
+                } else {
+                    console.log('ok_cloudinary no profile');
+                    resolve(result)  
+                }
+            })
         })
-    })
     )
 
+
     await Promise.all(res_promises)
-
     .then(result =>  {
-
         let indexFind;
 
         images = result.filter((img, index) => {
@@ -40,6 +51,7 @@ router.post('/', async function(req, res) {
             }
             return !img.profile
         });
+
 
         const bag = new Bags({
             name,
@@ -53,16 +65,18 @@ router.post('/', async function(req, res) {
             stars: Number(stars),
             facts: JSON.parse(facts)
         })
-    
+        
+
         bag.save((err, bagDB) => {
             if (err) {
+                console.log('Error al guardar');
                 return res.status(400).json({
                     ok: false,
                     message: 'Fallo al guardar',
                     err
                 })
             }
-    
+        
             deleteFiles(imagesArr, function(err) {
                 if (err) {
                   console.log(err);
@@ -81,6 +95,20 @@ router.post('/', async function(req, res) {
 
     })
     .catch((error) => {
+        console.log('catch error');
+
+        /* 
+            Erase too in cloudinary!
+        */
+
+        deleteFiles(imagesArr, function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log('all files removed');
+            }
+          });
+
         return res.json({
             ok: false,
             message: 'Cloudinary error',
@@ -172,7 +200,10 @@ router.get('/:slug/:model', function(req, res) {
                     err
                 })
             }
+
             let arrNumbers = [];
+            let related;
+            let relatedBolean = true;
             let arrFilter = bags.filter(bagRelated => {
                 let BRid = JSON.stringify(bagRelated._id);
                 let Bid = JSON.stringify(bag._id);
@@ -180,27 +211,34 @@ router.get('/:slug/:model', function(req, res) {
                 return  BRid != Bid ? bagRelated : false;
             });
 
-            while (!(arrNumbers.length == 4)) {
-                let alt = Math.floor(Math.random() * ((arrFilter.length) - 1) + 1);
-                if(arrNumbers.length == 0){
-                    arrNumbers.push(alt)
-                }else{
-                    let valid = true
-                    for (let b = 0; b < arrNumbers.length; b++) {
-                        if (arrNumbers[b] == alt){
-                            valid = false
+            
+            if(arrFilter.length >= 4 ){
+                while ( !(arrNumbers.length == 4) ) {
+                    let alt = Math.floor(Math.random() * ((arrFilter.length)) + 1);
+                    if(arrNumbers.length == 0){
+                        arrNumbers.push(alt)
+                    }else{
+                        let valid = true
+                        for (let b = 0; b < arrNumbers.length; b++) {
+                            if (arrNumbers[b] == alt){
+                                valid = false
+                            }
+                        }
+            
+                        if(valid){
+                            arrNumbers.push(alt)
                         }
                     }
-        
-                    if(valid){
-                        arrNumbers.push(alt)
-                    }
                 }
-            }
+    
+                related = arrNumbers.map(number => {
+                    return arrFilter[number - 1];
+                })
 
-            let related = arrNumbers.map(number => {
-                return arrFilter[number - 1];
-            })
+            }else{
+                related = [];
+                relatedBolean = false
+            }
 
             res.set({
                 'Content-Type': 'application/json',
@@ -211,7 +249,8 @@ router.get('/:slug/:model', function(req, res) {
             res.json({
                 ok: true,
                 bag,
-                related
+                related,
+                relatedBolean
             })
 
         })       
@@ -228,6 +267,7 @@ router.get('/cart', function(req,res) {
         }
 
         Bags.countDocuments((err, quantity) => {
+
             res.set({
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -273,6 +313,11 @@ router.post('/cart', async function(req, res) {
         })
     })
     .catch(err => {
+
+        res.set({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        })
 
         res.json({
             ok: false,

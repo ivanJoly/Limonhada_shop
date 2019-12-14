@@ -16,10 +16,10 @@ class App extends Component {
   handleInitialLikeHeart = async (id) => {
     let ls = await localStorage.getItem(id)
     if(ls){
-        console.log('LS', true);
+
         return true;
     }else{
-        console.log('LS', false);
+
         return false;
     }
   }

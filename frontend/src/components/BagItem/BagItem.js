@@ -27,13 +27,11 @@ class BagItem extends Component {
 
     handleInitialLikeHeartItem = async (id) => {
         let response = await this.props.handleInitialLikeHeart(id);
-        console.log('response', response);
         this.setState({like: response});
     }
 
     handleLikeHeartItem = async (id, actual) => {
         let response = await this.props.handleLikeHeart(id, actual);
-        console.log('response', response);
         this.setState({like: response});
     }
 

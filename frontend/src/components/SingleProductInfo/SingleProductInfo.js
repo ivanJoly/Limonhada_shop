@@ -47,12 +47,12 @@ class SingleProductInfo extends Component{
             )
             stars = (
                 [...Array(5)].map( (star, index) => {
-                    return <MdStar color={this.props.bag.stars > index ? '#eaeaea' : '#9E9E9E'}/>
+                    return <MdStar key={index} color={this.props.bag.stars > index ? '#eaeaea' : '#9E9E9E'}/>
                 })
             )
             facts = (
-                this.props.bag.facts.map( el => {
-                    return <li>{el}</li>;
+                this.props.bag.facts.map( (el, index) => {
+                    return <li key={index}>{el}</li>;
                 })
             )
             description = (`${this.props.bag.description}`)

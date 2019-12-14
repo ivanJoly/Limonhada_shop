@@ -151,6 +151,10 @@
     transform: translate(-50%, -50%);
 }
 
+.cart-summary button:focus{
+    outline: none;
+}
+
 @keyframes slide_to_rigth {
     0%   { 
         width: 0%;

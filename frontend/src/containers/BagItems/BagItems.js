@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import BagItem from '../../components/BagItem/BagItem';
 
+import BagItem from '../../components/BagItem/BagItem';
+import Loading from '../../components/Loading/Loading';
 
 const Api = require('../../config/apiConfig');
 require('./BagItems.css');
-const image_profile = require('../../assets/bag.png')
 
 class BagItems extends Component{
     
@@ -23,11 +23,9 @@ class BagItems extends Component{
             },
         })
         .then(response => {
-            console.log(response);
             return response.json();
         })
         .then(result => {
-            console.log(result);
             this.setState({bags: result.bags});
         })
         .catch(err => {
@@ -46,25 +44,16 @@ class BagItems extends Component{
 
     render(){
 
-        let bags;
+        let bags = <Loading/>;
         let quantity = 0;
-        
-        /*QUITAR LO DE IMG EN DEV AL TERMINAR EL PROCESO*/
-        let img_p;
 
         if(this.state.bags.length !== 0){
             bags = this.state.bags.map(bag => {
 
-                if(process.env.NODE_ENV === 'development'){
-                    img_p = image_profile
-                }else{
-                    img_p = bag.image_profile.url
-                }
-
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={img_p}
+                    url={bag.image_profile.url}
                     name={bag.name}
                     slug={bag.slug}
                     model={bag.model[0]}
@@ -83,17 +72,11 @@ class BagItems extends Component{
                 return el.model[0].toLowerCase() == this.state.active
             })
             .map(bag => {
-                
-                if(process.env.NODE_ENV === 'development'){
-                    img_p = image_profile
-                }else{
-                    img_p = bag.image_profile.url
-                }
 
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={img_p}
+                    url={bag.image_profile.url}
                     name={bag.name}
                     slug={bag.slug}
                     model={bag.model[0]}

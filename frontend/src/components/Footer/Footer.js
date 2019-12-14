@@ -22,7 +22,6 @@ class Footer extends Component{
     }
 
     formAction = (e) => {
-        console.log('Formulario correcto');
         e.preventDefault();
         fetch(`${Api.config.url}/api/sendmail`, {
             method: 'POST',
@@ -35,7 +34,6 @@ class Footer extends Component{
             return response.json();
         })
         .then(response => {
-            console.log(response);
             if(response.status === 200){
                 this.setState({mailResponse: response.msg})
             }else{

@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 import SingleProductInfo from '../../components/SingleProductInfo/SingleProductInfo';
 import SingleProductSlider from '../../components/SingleProductSlider/SingleProductSlider';
 import BagItem from '../../components/BagItem/BagItem';
+import Loading from '../../components/Loading/Loading'
 
 const Api = require('../../config/apiConfig');
-const image_profile = require('../../assets/bag.png');
 
 require('./SingleProduct.css');
 
@@ -14,6 +14,7 @@ class SingleProduct extends Component {
     state={
         bag: [],
         related:[],
+        relatedBolean: false,
         like: false,
         cart: false
     }
@@ -27,10 +28,9 @@ class SingleProduct extends Component {
             return response.json();
         })
         .then(result => {
-            console.log(result);
             this.handleInitialLikeHeartItemSP(result.bag._id)
             this.handleInitialCartItemSP(result.bag._id)
-            this.setState({bag: result.bag, related: result.related});
+            this.setState({bag: result.bag, related: result.related, relatedBolean: result.relatedBolean});
         })
     }
 
@@ -43,7 +43,7 @@ class SingleProduct extends Component {
     
         handleLikeHeartItem = async (id, actual) => {
             let response = await this.props.handleLikeHeart(id, actual);
-            console.log('heart: ',response);
+
             this.setState({like: response});
         }
     
@@ -64,25 +64,15 @@ class SingleProduct extends Component {
         /*Cart Refactorizado*/
 
     render(){
-        console.log('props: ',this.props);
         let related;
-
-        /*QUITAR LO DE IMG EN DEV AL TERMINAR EL PROCESO*/
-        let img_p;
         
         if(this.state.related.length !== 0){
             related = this.state.related.map(bag => {
 
-                if(process.env.NODE_ENV === 'development'){
-                    img_p = image_profile
-                }else{
-                    img_p = bag.image_profile.url
-                }
-
                 return <BagItem
                     key={bag._id}
                     id={bag._id}
-                    url={img_p}
+                    url={bag.image_profile.url}
                     name={bag.name}
                     slug={bag.slug}
                     model={bag.model[0]}
@@ -105,24 +95,41 @@ class SingleProduct extends Component {
                             img_profile={this.state.bag.image_profile}/>
                     </div>
                     <div className="single-product-info">
-                        <SingleProductInfo
+                        {
+                            this.state.bag.length == 0 ?
+                            <Loading colorSecondary={true}/>
+                            :
+                            <SingleProductInfo
                             bag={this.state.bag}
                             like={this.state.like}
                             cart={this.state.cart}
 
                             handleLikeHeart={this.handleLikeHeartItem}
                             handleCart={this.handleCartItem}/>
+                        }
+                        
                     </div>
                 </div>
-                <div className='container'>
-                    <div className="bag-related-title">
-                        <h2 className='heading'>Related products</h2>
-                        <div className='line-separator'></div>
+                {
+                    this.state.relatedBolean ?
+                    <div className='container'>
+                        <div className="bag-related-title">
+                            <h2 className='heading'>Related products</h2>
+                            <div className='line-separator'></div>
+                        </div>
+                        <div className="bag-related-items">
+                            {
+                                this.state.bag.length == 0 ?
+                                <Loading colorSecondary={true}/>
+                                :
+                                related
+                            }
+                        </div>
                     </div>
-                    <div className="bag-related-items">
-                        {related}
-                    </div>
-                </div>
+                    :
+                    null
+                }
+                
             </div>
         )
     }

@@ -10,6 +10,7 @@ const CartThank = (props) => {
             <p>You made our day we hope we make yours.</p>
             <p>In the next 24 hours we will contact you to be able to agree a day of delivery of your purchase!</p>
             <p className='slogan'>Make it yours.</p>
+            <span onClick={props.close}>Continue</span>
         </div>
     )
 }
